@@ -49,8 +49,13 @@ export function NavBar() {
    return (
       <header className="sticky top-0 z-40 border-b border-border/40 bg-background/70 backdrop-blur-xl">
          <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-            <Link href="/" passHref>
-               <Image src="/logo.svg" alt="Logo" width={32} height={32} />
+            <Link href="/" passHref className="group flex items-center gap-2">
+               <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-neon-cyan via-neon-blue to-neon-purple text-background">
+                  <Image src="/logo.svg" alt="Logo" width={32} height={32} />
+               </span>
+               <span className="font-display text-base font-extrabold uppercase tracking-[0.2em] text-gradient-neon">
+                  Captain Nova
+               </span>
             </Link>
             <ul className="hidden items-center gap-1 md:flex">
                {links.map((l) => {
@@ -105,7 +110,7 @@ export function NavBar() {
             })}
          </ul>
          <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-            <AlertDialogContent className="max-h-[85vh] overflow-y-auto border-neon-cyan/30 bg-background/95 backdrop-blur-xl sm:max-w-2xl">
+            <AlertDialogContent className="max-h-[85vh] overflow-y-auto border-neon-cyan/30 bg-background/95 backdrop-blur-xl sm:max-w-2xl animate-dialog-in-left">
                <AlertDialogHeader>
                   <AlertDialogTitle className="font-display uppercase tracking-wider text-gradient-neon">
                      Session Recap
@@ -117,10 +122,12 @@ export function NavBar() {
                </AlertDialogHeader>
                <SessionSummary session={session} insights={insights} />
                <AlertDialogFooter>
-                  <AlertDialogCancel>Stay in Session</AlertDialogCancel>
+                  <AlertDialogCancel className="cursor-pointer">
+                     Stay in Session
+                  </AlertDialogCancel>
                   <AlertDialogAction
                      onClick={confirmNewSession}
-                     className="bg-linear-to-r from-neon-cyan to-neon-blue text-background hover:opacity-90"
+                     className="bg-linear-to-r from-neon-cyan to-neon-blue text-background hover:opacity-90 cursor-pointer"
                   >
                      End & Start New
                   </AlertDialogAction>
