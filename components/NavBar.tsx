@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Home, Swords, Dumbbell, Zap, RotateCw } from "lucide-react";
-import { clearSession, useSession } from "@/lib/session";
+import { clearSession, useInsights, useSession } from "@/lib/session";
 import { useState } from "react";
 import {
    AlertDialog,
@@ -14,17 +14,21 @@ import {
    AlertDialogCancel,
    AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { SessionSummary } from "./SessionSummary";
+import Image from "next/image";
 
 const links = [
    { to: "/", label: "Home", icon: Home },
-   { to: "/dashboard", label: "Console", icon: Swords },
+   { to: "/console", label: "Console", icon: Swords },
    { to: "/drills", label: "Drills", icon: Dumbbell },
 ] as const;
 
 export function NavBar() {
    const pathname = usePathname();
+   const router = useRouter();
    const session = useSession();
+   const insights = useInsights();
    const [confirmOpen, setConfirmOpen] = useState(false);
 
    function handleNewSessionClick() {
@@ -33,29 +37,20 @@ export function NavBar() {
          return;
       }
       clearSession();
-      // Use Next.js navigate for routing
-      window.location.href = "/onboarding";
+      router.push("/onboarding");
    }
 
    function confirmNewSession() {
       clearSession();
       setConfirmOpen(false);
-      // Use Next.js navigate for routing
-      window.location.href = "/onboarding";
+      router.push("/onboarding");
    }
 
    return (
       <header className="sticky top-0 z-40 border-b border-border/40 bg-background/70 backdrop-blur-xl">
          <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
             <Link href="/" passHref>
-               <div className="group flex items-center gap-2">
-                  <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-neon-cyan via-neon-blue to-neon-purple text-background">
-                     <Zap className="h-4 w-4" />
-                  </span>
-                  <span className="font-display text-base font-extrabold uppercase tracking-[0.2em] text-gradient-neon">
-                     NovaForge
-                  </span>
-               </div>
+               <Image src="/logo.svg" alt="Logo" width={32} height={32} />
             </Link>
             <ul className="hidden items-center gap-1 md:flex">
                {links.map((l) => {
@@ -81,7 +76,7 @@ export function NavBar() {
             </ul>
             <button
                onClick={handleNewSessionClick}
-               className="btn-neon inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider"
+               className="btn-neon inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider cursor-pointer"
             >
                <RotateCw className="h-3.5 w-3.5" />
                New Session
@@ -110,24 +105,24 @@ export function NavBar() {
             })}
          </ul>
          <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-            <AlertDialogContent className="border-neon-cyan/30 bg-background/95 backdrop-blur-xl">
+            <AlertDialogContent className="max-h-[85vh] overflow-y-auto border-neon-cyan/30 bg-background/95 backdrop-blur-xl sm:max-w-2xl">
                <AlertDialogHeader>
                   <AlertDialogTitle className="font-display uppercase tracking-wider text-gradient-neon">
-                     Forge a new session?
+                     Session Recap
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                     This will clear your current pilot data, reflections, and
-                     drill progress. Captain Nova will greet you fresh from the
-                     onboarding deck.
+                     Here's how you trained today. Review your recap before
+                     forging a new session — all current data will be cleared.
                   </AlertDialogDescription>
                </AlertDialogHeader>
+               <SessionSummary session={session} insights={insights} />
                <AlertDialogFooter>
                   <AlertDialogCancel>Stay in Session</AlertDialogCancel>
                   <AlertDialogAction
                      onClick={confirmNewSession}
                      className="bg-linear-to-r from-neon-cyan to-neon-blue text-background hover:opacity-90"
                   >
-                     Reset & Restart
+                     End & Start New
                   </AlertDialogAction>
                </AlertDialogFooter>
             </AlertDialogContent>

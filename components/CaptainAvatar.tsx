@@ -37,6 +37,7 @@ export default function CaptainAvatar({
             width={1024}
             height={1280}
             className="h-full w-full object-cover object-top"
+            loading="eager"
           />
         </div>
       </div>

@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { TrainingConsole } from "@/components/TrainingConsole";
 import { useSession } from "@/lib/session";
+import Loading from "@/components/Loading";
 
-export default function DashboardPage() {
+export default function Page() {
   const session = useSession();
   const router = useRouter();
-  const [loading, setLoading] = useState(true); // Add loading state to prevent SSR mismatch
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (session === null) {
@@ -18,7 +19,7 @@ export default function DashboardPage() {
     }
   }, [session, router]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
 
   if (!session) return null;
 

@@ -35,7 +35,7 @@ export function MatchReflection({ onSubmit, loading }: Props) {
         placeholder="Describe your last match or what went wrong..."
         className="w-full resize-none rounded-lg border border-border/60 bg-input/40 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus:border-neon-cyan/60 focus:outline-none focus:ring-2 focus:ring-neon-cyan/25"
       />
-      <div className="mt-3 flex items-center justify-between gap-3">
+      <div className="mt-3 flex md:flex-row flex-col items-center justify-between gap-3">
         <p className="text-xs text-muted-foreground">
           {loading ? (
             <span className="inline-flex items-center gap-2 text-neon-cyan">
@@ -50,7 +50,7 @@ export function MatchReflection({ onSubmit, loading }: Props) {
         <button
           type="submit"
           disabled={!text.trim() || loading}
-          className="btn-neon inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-50"
+          className="btn-neon inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Send className="h-3.5 w-3.5" />
           Analyze My Game

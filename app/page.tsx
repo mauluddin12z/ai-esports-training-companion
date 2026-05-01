@@ -9,7 +9,7 @@ export default function Page() {
 
   const handleStart = () => {
     const session = getSession();
-    router.push(session ? "/dashboard" : "/onboarding");
+    router.push(session ? "/console" : "/onboarding");
   };
 
   return (
