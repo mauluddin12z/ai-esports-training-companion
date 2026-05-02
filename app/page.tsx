@@ -17,7 +17,7 @@ export default function Page() {
       <Hero onStart={handleStart} />
       <footer className="border-t border-border/40 py-8 text-center text-xs text-muted-foreground">
         <span className="font-display uppercase tracking-[0.3em]">
-          NovaForge
+          Captain Nova
         </span>{" "}
         — Train the mind. Win the game.
       </footer>
