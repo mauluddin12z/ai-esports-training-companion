@@ -2,19 +2,20 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-   return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs));
 }
 
-export function safeJSONParse(text: string) {
-   try {
-      const cleaned = text
-         .replace(/```json/g, "")
-         .replace(/```/g, "")
-         .trim();
+export function safeJSONParse<T>(text: string): T {
+  try {
+    const cleaned = text
+      .replace(/```[\s\S]*?```/g, (match) => match.replace(/```json|```/g, ""))
+      .replace(/^[^{[]*/, "")
+      .replace(/[^}\]]*$/, "")
+      .trim();
 
-      return JSON.parse(cleaned);
-   } catch (err) {
-      console.error("JSON parse failed:", text);
-      return null;
-   }
+    return JSON.parse(cleaned);
+  } catch (err) {
+    console.error("JSON parse failed:", text);
+    throw new Error("Invalid JSON from AI");
+  }
 }
