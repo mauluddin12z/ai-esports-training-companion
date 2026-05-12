@@ -5,7 +5,7 @@ import { Flame, Check } from "lucide-react";
 import { Drill } from "@/types";
 
 export function TrainingPlan({ drills }: { drills: Drill[] }) {
-  const [done, setDone] = useState<Record<string, boolean>>({ aim: true });
+  const [done, setDone] = useState<Record<string, boolean>>({});
   const completed = Object.values(done).filter(Boolean).length;
   const pct = Math.round((completed / (drills?.length || 1)) * 100);
 
